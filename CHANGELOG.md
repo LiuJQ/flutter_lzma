@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Integrate PLZMA SDK portable api to compress/extract 7z file.
