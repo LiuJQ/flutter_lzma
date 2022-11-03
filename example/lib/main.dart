@@ -3,6 +3,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_lzma/flutter_lzma.dart';
+import 'package:flutter_lzma_example/file_compress.dart';
+import 'package:flutter_lzma_example/file_extract.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,9 +57,24 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Running on: $_platformVersion\n'),
+              buildCompress(),
+              buildExtract(),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Widget buildCompress() {
+    return TextButton(onPressed: () => FileCompress().testCompress(), child: const Text("Test Compress"));
+  }
+
+  Widget buildExtract() {
+    return TextButton(onPressed: () => FileExtract().testExtract(), child: const Text("Test Extract"));
   }
 }

@@ -15,6 +15,7 @@ A flutter develop kit for LZMA SDK.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
+  s.dependency 'PLzmaSDK', '1.2.5'
   s.platform = :ios, '9.0'
 
   # Flutter.framework does not contain a i386 slice.
