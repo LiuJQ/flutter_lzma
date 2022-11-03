@@ -62,6 +62,7 @@ class _MyAppState extends State<MyApp> {
             children: [
               Text('Running on: $_platformVersion\n'),
               buildCompress(),
+              buildCompressDir(),
               buildExtract(),
             ],
           ),
@@ -72,6 +73,10 @@ class _MyAppState extends State<MyApp> {
 
   Widget buildCompress() {
     return TextButton(onPressed: () => FileCompress().testCompress(), child: const Text("Test Compress"));
+  }
+
+  Widget buildCompressDir() {
+    return TextButton(onPressed: () => FileCompress().testCompressDir(), child: const Text("Test Compress Dir"));
   }
 
   Widget buildExtract() {

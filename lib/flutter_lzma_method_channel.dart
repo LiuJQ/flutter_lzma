@@ -25,6 +25,15 @@ class MethodChannelFlutterLzma extends FlutterLzmaPlatform {
   }
 
   @override
+  Future<String?> compressDir(String sourceDir, String destFile) async {
+    final result = await methodChannel.invokeMethod<bool>('compressDir', <String, dynamic>{
+      "sourceDir": sourceDir,
+      "destFile": destFile
+    });
+    return result == true ? destFile : null;
+  }
+
+  @override
   Future<String?> extract(String sourceFile, String destDir) async {
     final result = await methodChannel.invokeMethod<bool>('extract', <String, dynamic>{
       "sourceFile": sourceFile,

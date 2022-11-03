@@ -10,6 +10,10 @@ class FlutterLzma {
     return FlutterLzmaPlatform.instance.compress(sourcePaths, destFile);
   }
 
+  Future<String?> compressDir(String sourceDir, String destFile) {
+    return FlutterLzmaPlatform.instance.compressDir(sourceDir, destFile);
+  }
+
   Future<String?> extractFile(String sourceFile, String destDir) {
     return FlutterLzmaPlatform.instance.extract(sourceFile, destDir);
   }

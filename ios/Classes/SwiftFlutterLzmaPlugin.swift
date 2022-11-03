@@ -38,6 +38,21 @@ public class SwiftFlutterLzmaPlugin: NSObject, FlutterPlugin, DecoderDelegate, E
                 return
             }
             compress(filePaths: filePaths!, targetArchivePath: targetPath!, result: result)
+        case "compressDir":
+            let arguments = call.arguments as! [String: Any]
+            let sourceDir = arguments["sourceDir"] as? String
+            let targetPath = arguments["destFile"] as? String
+            if (sourceDir == nil) {
+                print("try to compress without any source, fail")
+                result(nil)
+                return
+            }
+            if (targetPath == nil) {
+                print("try to compress files without target path, fail")
+                result(nil)
+                return
+            }
+            compress(sourcePath: sourceDir!, targetArchivePath: targetPath!, result: result)
         case "extract":
             let arguments = call.arguments as! [String: Any]
             let sourcePath = arguments["sourceFile"] as? String
@@ -87,6 +102,53 @@ public class SwiftFlutterLzmaPlugin: NSObject, FlutterPlugin, DecoderDelegate, E
             
             //  3.2. Single directory path with optional directory iteration option and optional path inside the archive.
 //            try encoder.add(path: Path("dir/dir1")) // store as "dir1/..."
+//            try encoder.add(path: Path("dir/dir2"), mode: .followSymlinks, archivePath: Path("renamed_dir2")) // store as "renamed_dir2/..."
+            
+            //  3.3. Any input stream with required path inside the archive.
+//            let itemStream = try InStream(dataCopy: <Data>) // InStream(dataNoCopy: <Data>)
+//            try encoder.add(stream: itemStream, archivePath: Path("my_file3.txt")) // store as "my_file3.txt"
+            
+            // 4. Open.
+            let opened = try encoder.open()
+            
+            // 4. Compress.
+            let compressed = try encoder.compress()
+            
+            result(compressed)
+        } catch let exception as Exception {
+            print("compress exception: \(exception)")
+            result(nil)
+        } catch let error {
+            print("compress error: \(error)")
+            result(nil)
+        }
+    }
+    
+    public func compress(sourcePath: String, targetArchivePath: String, result: @escaping FlutterResult) {
+        do {
+            // 1. Create output stream for writing archive's file content.
+            //  1.1. Using file path.
+            let archivePath = try Path(targetArchivePath)
+            let archivePathOutStream = try OutStream(path: archivePath)
+            
+            // 2. Create encoder with output stream, type of the archive, compression method and optional progress delegate.
+            let encoder = try Encoder(stream: archivePathOutStream, fileType: .sevenZ, method: .LZMA2, delegate: self)
+            
+            //  2.1. Optionaly provide the password in case of header and/or content encryption.
+//            try encoder.setPassword("1234")
+            
+            //  2.2. Setup archive properties.
+//            try encoder.setShouldEncryptHeader(true)  // use this option with password.
+//            try encoder.setShouldEncryptContent(true) // use this option with password.
+            try encoder.setCompressionLevel(9)
+            
+            // 3. Add content for archiving.
+            //  3.1. Single file path with optional path inside the archive.
+//            try encoder.add(path: Path("dir/my_file1.txt")) // store as "dir/my_file1.txt", as is.
+//            try encoder.add(path: Path("dir/my_file2.txt"), mode: .default, archivePath: Path("renamed_file2.txt")) // store as "renamed_file2.txt"
+            
+            //  3.2. Single directory path with optional directory iteration option and optional path inside the archive.
+            try encoder.add(path: Path(sourcePath)) // store as "dir1/..."
 //            try encoder.add(path: Path("dir/dir2"), mode: .followSymlinks, archivePath: Path("renamed_dir2")) // store as "renamed_dir2/..."
             
             //  3.3. Any input stream with required path inside the archive.

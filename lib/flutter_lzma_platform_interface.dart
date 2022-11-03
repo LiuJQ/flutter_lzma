@@ -31,6 +31,10 @@ abstract class FlutterLzmaPlatform extends PlatformInterface {
     throw UnimplementedError('compress() has not been implemented.');
   }
 
+  Future<String?> compressDir(String sourceDir, String destFile) {
+    throw UnimplementedError('compressDir() has not been implemented.');
+  }
+
   Future<String?> extract(String sourceFile, String destDir) {
     throw UnimplementedError('extract() has not been implemented.');
   }

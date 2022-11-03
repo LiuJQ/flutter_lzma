@@ -11,8 +11,7 @@ class FileCompress extends FileBase {
   Future<String?> testCompress({String destFile = "temp.7z"}) async {
     await copyBundleFile(_assetsFilesDir, _file2Compress1);
     await copyBundleFile(_assetsFilesDir, _file2Compress2);
-    final dir = await getTemporaryDirectory();
-    final cacheDir = dir.path;
+    final cacheDir = (await getTemporaryDirectory()).path;
     final separator = Platform.pathSeparator;
     final sourcePaths = <String>[];
     sourcePaths.add("$cacheDir$separator$_file2Compress1");
@@ -23,6 +22,20 @@ class FileCompress extends FileBase {
       printLog("compress files completed, ls dir st *************************");
       lsDirectory(cacheDir);
       printLog("compress files completed, ls dir ed *************************");
+    });
+  }
+
+  Future<String?> testCompressDir({String dir = "temp2Compress"}) async {
+    await copyBundleFile(_assetsFilesDir, _file2Compress1, targetDir: dir);
+    await copyBundleFile(_assetsFilesDir, _file2Compress2, targetDir: dir);
+    final cacheDir = (await getTemporaryDirectory()).path;
+    final separator = Platform.pathSeparator;
+    return flutterLzmaPlugin
+        .compressDir("$cacheDir$separator$dir", "$cacheDir$separator${dir}ed.7z")
+        .whenComplete(() {
+      printLog("compress dir completed, ls dir st *************************");
+      lsDirectory(cacheDir);
+      printLog("compress dir completed, ls dir ed *************************");
     });
   }
 }

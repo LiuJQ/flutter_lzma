@@ -9,14 +9,14 @@ class FileBase {
   @protected
   final flutterLzmaPlugin = FlutterLzma();
 
-  Future copyBundleFile(String sourceDir, String assetsFile) async {
+  Future copyBundleFile(String sourceDir, String assetsFile, {String? targetDir}) async {
     final dir = await getTemporaryDirectory();
     final cacheDir = dir.path;
-    final libFile = File("$cacheDir/$assetsFile");
+    final libFile = targetDir != null ? File("$cacheDir/$targetDir/$assetsFile") : File("$cacheDir/$assetsFile");
 
     // 从rootBundle加载出assets资源
     final data = await rootBundle.load("$sourceDir${Platform.pathSeparator}$assetsFile");
-    final createFile = await libFile.create();
+    final createFile = await libFile.create(recursive: true);
     final writeFile = await createFile.open(mode: FileMode.write);
     await writeFile.writeFrom(Uint8List.view(data.buffer));
   }
