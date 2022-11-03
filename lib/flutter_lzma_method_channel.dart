@@ -16,20 +16,20 @@ class MethodChannelFlutterLzma extends FlutterLzmaPlatform {
   }
 
   @override
-  Future<bool?> compress(List<String> files, String destFile) async {
+  Future<String?> compress(List<String> files, String destFile) async {
     final result = await methodChannel.invokeMethod<bool>('compress', <String, dynamic>{
       "sourceFiles": files,
       "destFile": destFile
     });
-    return result;
+    return result == true ? destFile : null;
   }
 
   @override
-  Future<bool?> extract(String sourceFile, String destDir) async {
+  Future<String?> extract(String sourceFile, String destDir) async {
     final result = await methodChannel.invokeMethod<bool>('extract', <String, dynamic>{
       "sourceFile": sourceFile,
       "destDir": destDir
     });
-    return result;
+    return result == true ? destDir : null;
   }
 }

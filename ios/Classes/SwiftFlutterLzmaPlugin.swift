@@ -80,7 +80,7 @@ public class SwiftFlutterLzmaPlugin: NSObject, FlutterPlugin, DecoderDelegate, E
             }
             
             //  3.3 Optionaly provide the password to open/list/test/extract encrypted archive items.
-            try encoder.setPassword("1234")
+//            try encoder.setPassword("1234")
             let opened = try encoder.open()
             print("compress open result: \(opened)")
             
@@ -111,7 +111,7 @@ public class SwiftFlutterLzmaPlugin: NSObject, FlutterPlugin, DecoderDelegate, E
             let decoder = try Decoder(stream: /*archiveDataInStream*/ archivePathInStream, fileType: .sevenZ, delegate: self)
             
             //  2.1. Optionaly provide the password to open/list/test/extract encrypted archive items.
-            try decoder.setPassword("1234")
+//            try decoder.setPassword("1234")
             
             let opened = try decoder.open()
             

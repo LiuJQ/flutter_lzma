@@ -4,7 +4,7 @@ import 'package:flutter_lzma_example/file_base.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileExtract extends FileBase {
-  Future<bool?> testExtract({String sourceFile = "temp.7z"}) async {
+  Future<String?> testExtract({String sourceFile = "temp.7z"}) async {
     final dir = await getTemporaryDirectory();
     final cacheDir = dir.path;
     final separator = Platform.pathSeparator;
