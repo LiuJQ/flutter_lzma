@@ -1,5 +1,6 @@
 package com.jackin.flutter_lzma
 
+import com.jackin.plzmasdk.PLzmaNativeApis
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -89,14 +90,14 @@ class FlutterLzmaPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     private fun compress(filePaths: List<String>, archivePath: String, result: Result) {
-        result.success(LzmaNativeApis.instance.compress(filePaths.toTypedArray(), archivePath))
+        result.success(PLzmaNativeApis.instance.compress(filePaths.toTypedArray(), archivePath))
     }
 
     private fun compressDir(sourcePath: String, archivePath: String, result: Result) {
-        result.success(LzmaNativeApis.instance.compressDir(sourcePath, archivePath))
+        result.success(PLzmaNativeApis.instance.compressDir(sourcePath, archivePath))
     }
 
     private fun extract(archivePath: String, targetPath: String, result: Result) {
-        result.success(LzmaNativeApis.instance.extract(archivePath, targetPath))
+        result.success(PLzmaNativeApis.instance.extract(archivePath, targetPath))
     }
 }
