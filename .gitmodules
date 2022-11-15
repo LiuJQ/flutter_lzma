@@ -1,3 +1,0 @@
-[submodule "android/src/main/cpp/PLzmaSDK"]
-	path = android/src/main/cpp/PLzmaSDK
-	url = git@github.com:OlehKulykov/PLzmaSDK.git
